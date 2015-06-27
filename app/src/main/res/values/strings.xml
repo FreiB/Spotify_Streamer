@@ -4,4 +4,8 @@
     <string name="action_settings">Settings</string>
 
     <string name="edit_text_search_hint">Artist Name</string>
+    <string name="title_activity_top_tracks">Top 10 Tracks</string>
+    <string name="artist_id">artistID</string>
+    <string name="artist_name">artistName</string>
+    <string name="no_result_text">Artist name not found. Please refine your search</string>
 </resources>

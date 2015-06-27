@@ -14,9 +14,13 @@
         android:id="@+id/EditTextSearch"
         android:hint="@string/edit_text_search_hint" />
 
-    <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/ScrollViewArtists"/>
+
+
+        <ListView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/ListViewSearch">
+        </ListView>
+
 
 </LinearLayout>
