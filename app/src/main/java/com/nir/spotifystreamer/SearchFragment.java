@@ -17,9 +17,7 @@ import android.widget.Toast;
 import java.util.List;
 
 
-/**
- * A placeholder fragment containing a simple view.
- */
+
 public class SearchFragment extends Fragment {
     public static final String LOG_TAG = SearchFragment.class.getSimpleName();
 
@@ -32,19 +30,28 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-
         View rootView = inflater.inflate(R.layout.fragment_search, container, false);
+
         mSearchTask = new SearchArtistTask();
         mAdapter = new SpotifyArrayAdapter(getActivity(),0,SpotifyArrayAdapter.ADAPTER_TYPE_SEARCH);
+
         ListView listView = (ListView)rootView.findViewById(R.id.ListViewSearch);
         listView.setAdapter(mAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                SpotifyArrayAdapter.DataEntity data = mAdapter.getItem(i);
+                Intent intent = new Intent(getActivity(), TopTracksActivity.class);
+                intent.putExtra(getString(R.string.artist_id), data.mID);
+                intent.putExtra(getString(R.string.artist_name), data.mText1);
+                startActivity(intent);
+            }
+        });
+
         EditText searchBox = (EditText)rootView.findViewById(R.id.EditTextSearch);
         searchBox.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -61,21 +68,9 @@ public class SearchFragment extends Fragment {
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
+            public void afterTextChanged(Editable editable) {}
         });
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                SpotifyArrayAdapter.DataEntity data = mAdapter.getItem(i);
-                Intent intent = new Intent(getActivity(), TopTracksActivity.class);
-                intent.putExtra(getString(R.string.artist_id), data.mID);
-                intent.putExtra(getString(R.string.artist_name), data.mText1);
-                startActivity(intent);
-            }
-        });
         return rootView;
     }
 

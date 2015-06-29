@@ -7,14 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.List;
 
 
-/**
- * A placeholder fragment containing a simple view.
- */
+
 public class TopTracksFragment extends Fragment {
+    public static final String LOG_TAG = TopTracksFragment.class.getSimpleName();
 
     private SpotifyArrayAdapter mAdapter;
 
@@ -46,6 +46,11 @@ public class TopTracksFragment extends Fragment {
 
         @Override
         protected void onPostExecute(List<SpotifyArrayAdapter.DataEntity> dataEntities) {
+            if (dataEntities.size() == 0) {
+                Toast.makeText(getActivity(),
+                        R.string.no_top_tracks_text,
+                        Toast.LENGTH_SHORT).show();
+            }
             mAdapter.addAll(dataEntities);
         }
     }

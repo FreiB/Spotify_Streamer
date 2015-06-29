@@ -8,4 +8,5 @@
     <string name="artist_id">artistID</string>
     <string name="artist_name">artistName</string>
     <string name="no_result_text">Artist name not found. Please refine your search</string>
+    <string name="no_top_tracks_text">Top tracks for artist not found</string>
 </resources>

@@ -16,12 +16,15 @@ import kaaes.spotify.webapi.android.models.Tracks;
 
 /**
  * Created by Nir on 27/06/2015.
+ * Singleton class for interacting with the Spotify API wrapper.
  */
 public class Spotify {
     public static final String LOG_TAG = Spotify.class.getSimpleName();
     private static Spotify ourInstance = new Spotify();
 
     private SpotifyService mService;
+
+    private final int THUMBNAIL_SIZE = 250;
 
     public static Spotify getInstance() {
         return ourInstance;
@@ -37,13 +40,7 @@ public class Spotify {
         ArrayList<DataEntity> resultsArray = new ArrayList<>();
         ArtistsPager results = mService.searchArtists(name);
         for (Artist artist : results.artists.items) {
-            Image image = null;
-            if (artist.images.size() > 0) {
-                image = artist.images.get(artist.images.size() - 2);
-            }
-            String imageUrl = "";
-            if (image != null)
-                imageUrl = image.url;
+            String imageUrl = getImageUrl(artist.images, THUMBNAIL_SIZE);
             resultsArray.add(new DataEntity(artist.name, null, imageUrl, artist.id));
         }
         return resultsArray;
@@ -53,15 +50,23 @@ public class Spotify {
         ArrayList<DataEntity> resultsArray = new ArrayList<>();
         HashMap<String, Object> countryMap = new HashMap<>();
         countryMap.put("country", "US");
-        Tracks tracks = mService.getArtistTopTrack(id,countryMap);
+        Tracks tracks = mService.getArtistTopTrack(id, countryMap);
         for (Track track : tracks.tracks)
         {
-            Image image = null;
-            if (track.album.images.size() > 0) {
-                image = track.album.images.get(track.album.images.size() - 2);
-            }
-            resultsArray.add(new DataEntity(track.album.name, track.name, image.url, track.id));
+            String imageUrl = getImageUrl(track.album.images, THUMBNAIL_SIZE);
+            resultsArray.add(new DataEntity(track.album.name, track.name, imageUrl, track.id));
         }
         return resultsArray;
+    }
+
+    private String getImageUrl(List<Image> images, int maxSize) {
+        if (!images.isEmpty()) {
+            for (Image image : images) {
+                if (image.height <= maxSize && image.width <= maxSize)
+                    return image.url;
+            }
+            return images.get(images.size()-1).url;
+        }
+        else return "";
     }
 }

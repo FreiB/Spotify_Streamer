@@ -12,15 +12,16 @@
     <EditText android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:id="@+id/EditTextSearch"
-        android:hint="@string/edit_text_search_hint" />
+        android:hint="@string/edit_text_search_hint"
+        android:maxLength="40"/>
 
 
 
-        <ListView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:id="@+id/ListViewSearch">
-        </ListView>
+    <ListView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/ListViewSearch">
+    </ListView>
 
 
 </LinearLayout>

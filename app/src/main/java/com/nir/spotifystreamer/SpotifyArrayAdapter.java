@@ -10,9 +10,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-/**
- * Created by Nir on 27/06/2015.
- */
+
 public class SpotifyArrayAdapter extends ArrayAdapter<SpotifyArrayAdapter.DataEntity> {
     public static final String LOG_TAG = SpotifyArrayAdapter.class.getSimpleName();
 
@@ -69,6 +67,9 @@ public class SpotifyArrayAdapter extends ArrayAdapter<SpotifyArrayAdapter.DataEn
 
     }
 
+    /**
+     * ViewHolder class for reducing findViewById calls
+     */
     public static class ViewHolder {
         public final ImageView iconView;
         public final TextView textView1;
