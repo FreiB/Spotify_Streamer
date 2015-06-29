@@ -63,7 +63,14 @@ public class SearchFragment extends Fragment {
                     mSearchTask.cancel(true);
                     mSearchTask = new SearchArtistTask();
                 }
-                mSearchTask.execute(charSequence.toString());
+                if (Utility.isNetworkAvailable(getActivity())) {
+                    mSearchTask.execute(charSequence.toString());
+                }
+                else {
+                    Toast.makeText(getActivity(),
+                            R.string.connection_error,
+                            Toast.LENGTH_SHORT).show();
+                }
 
             }
 
@@ -74,9 +81,7 @@ public class SearchFragment extends Fragment {
         return rootView;
     }
 
-    /**
-     * Created by Nir on 27/06/2015.
-     */
+
     public class SearchArtistTask extends AsyncTask<String, Void, List<SpotifyArrayAdapter.DataEntity>> {
 
         @Override
@@ -86,13 +91,15 @@ public class SearchFragment extends Fragment {
 
         @Override
         protected void onPostExecute(List<SpotifyArrayAdapter.DataEntity> dataEntities) {
-            if (dataEntities.size() == 0) {
-                Toast.makeText(getActivity(),
-                        getString(R.string.no_result_text),
-                        Toast.LENGTH_SHORT).show();
+            if (dataEntities != null) {
+                if (dataEntities.size() == 0) {
+                    Toast.makeText(getActivity(),
+                            getString(R.string.no_result_text),
+                            Toast.LENGTH_SHORT).show();
+                }
+                mAdapter.clear();
+                mAdapter.addAll(dataEntities);
             }
-            mAdapter.clear();
-            mAdapter.addAll(dataEntities);
         }
     }
 }

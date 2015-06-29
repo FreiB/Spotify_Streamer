@@ -32,8 +32,15 @@ public class TopTracksFragment extends Fragment {
                 SpotifyArrayAdapter.ADAPTER_TYPE_TOPTRACKS);
         ListView listView = (ListView) rootView.findViewById(R.id.top_tracks_listview);
         listView.setAdapter(mAdapter);
-        new FetchTopTracksTask().execute(getActivity().getIntent().getStringExtra(
-                getString(R.string.artist_id)));
+        if (Utility.isNetworkAvailable(getActivity())) {
+            new FetchTopTracksTask().execute(getActivity().getIntent().getStringExtra(
+                    getString(R.string.artist_id)));
+        }
+        else {
+            Toast.makeText(getActivity(),
+                    R.string.connection_error,
+                    Toast.LENGTH_SHORT);
+        }
         return rootView;
     }
 
@@ -46,12 +53,14 @@ public class TopTracksFragment extends Fragment {
 
         @Override
         protected void onPostExecute(List<SpotifyArrayAdapter.DataEntity> dataEntities) {
-            if (dataEntities.size() == 0) {
-                Toast.makeText(getActivity(),
-                        R.string.no_top_tracks_text,
-                        Toast.LENGTH_SHORT).show();
+            if (dataEntities != null) {
+                if (dataEntities.size() == 0) {
+                    Toast.makeText(getActivity(),
+                            R.string.no_top_tracks_text,
+                            Toast.LENGTH_SHORT).show();
+                }
+                mAdapter.addAll(dataEntities);
             }
-            mAdapter.addAll(dataEntities);
         }
     }
 }

@@ -13,6 +13,7 @@ import kaaes.spotify.webapi.android.models.ArtistsPager;
 import kaaes.spotify.webapi.android.models.Image;
 import kaaes.spotify.webapi.android.models.Track;
 import kaaes.spotify.webapi.android.models.Tracks;
+import retrofit.RetrofitError;
 
 /**
  * Created by Nir on 27/06/2015.
@@ -26,6 +27,7 @@ public class Spotify {
 
     private final int THUMBNAIL_SIZE = 250;
 
+
     public static Spotify getInstance() {
         return ourInstance;
     }
@@ -36,12 +38,17 @@ public class Spotify {
 
     }
 
+
     public List<DataEntity> SearchArtist(String name) {
         ArrayList<DataEntity> resultsArray = new ArrayList<>();
-        ArtistsPager results = mService.searchArtists(name);
-        for (Artist artist : results.artists.items) {
-            String imageUrl = getImageUrl(artist.images, THUMBNAIL_SIZE);
-            resultsArray.add(new DataEntity(artist.name, null, imageUrl, artist.id));
+        try {
+            ArtistsPager results = mService.searchArtists(name);
+            for (Artist artist : results.artists.items) {
+                String imageUrl = getImageUrl(artist.images, THUMBNAIL_SIZE);
+                resultsArray.add(new DataEntity(artist.name, null, imageUrl, artist.id));
+            }
+        } catch (RetrofitError ex) {
+
         }
         return resultsArray;
     }
@@ -50,11 +57,14 @@ public class Spotify {
         ArrayList<DataEntity> resultsArray = new ArrayList<>();
         HashMap<String, Object> countryMap = new HashMap<>();
         countryMap.put("country", "US");
-        Tracks tracks = mService.getArtistTopTrack(id, countryMap);
-        for (Track track : tracks.tracks)
-        {
-            String imageUrl = getImageUrl(track.album.images, THUMBNAIL_SIZE);
-            resultsArray.add(new DataEntity(track.album.name, track.name, imageUrl, track.id));
+        try {
+            Tracks tracks = mService.getArtistTopTrack(id, countryMap);
+            for (Track track : tracks.tracks) {
+                String imageUrl = getImageUrl(track.album.images, THUMBNAIL_SIZE);
+                resultsArray.add(new DataEntity(track.album.name, track.name, imageUrl, track.id));
+            }
+        }catch (RetrofitError ex) {
+
         }
         return resultsArray;
     }
@@ -69,4 +79,5 @@ public class Spotify {
         }
         else return "";
     }
+
 }
