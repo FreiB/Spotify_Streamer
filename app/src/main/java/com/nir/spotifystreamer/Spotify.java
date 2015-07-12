@@ -25,7 +25,10 @@ public class Spotify {
 
     private SpotifyService mService;
 
+    private List<DataEntity> mLastQuery;
+
     private final int THUMBNAIL_SIZE = 250;
+
 
 
     public static Spotify getInstance() {
@@ -38,6 +41,9 @@ public class Spotify {
 
     }
 
+    public List<DataEntity> getmLastQuery() {
+        return mLastQuery;
+    }
 
     public List<DataEntity> SearchArtist(String name) {
         ArrayList<DataEntity> resultsArray = new ArrayList<>();
@@ -50,6 +56,7 @@ public class Spotify {
         } catch (RetrofitError ex) {
 
         }
+        mLastQuery = resultsArray;
         return resultsArray;
     }
 
@@ -66,6 +73,7 @@ public class Spotify {
         }catch (RetrofitError ex) {
 
         }
+        mLastQuery = resultsArray;
         return resultsArray;
     }
 

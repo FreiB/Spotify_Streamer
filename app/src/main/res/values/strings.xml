@@ -10,4 +10,7 @@
     <string name="no_result_text">Artist name not found. Please refine your search</string>
     <string name="no_top_tracks_text">Top tracks for artist not found</string>
     <string name="connection_error">Network connection unavailable</string>
+    <string name="title_activity_player">Spotify Streamer</string>
+    <string name="track_id">TrackID</string>
+    <string name="image_url">ImageURL</string>
 </resources>

@@ -1,11 +1,13 @@
 package com.nir.spotifystreamer;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -26,12 +28,27 @@ public class TopTracksFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_top_tracks, container, false);
+
         mAdapter = new SpotifyArrayAdapter(
                 getActivity(),
                 0,
                 SpotifyArrayAdapter.ADAPTER_TYPE_TOPTRACKS);
+
         ListView listView = (ListView) rootView.findViewById(R.id.top_tracks_listview);
         listView.setAdapter(mAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                SpotifyArrayAdapter.DataEntity data =
+                        (SpotifyArrayAdapter.DataEntity)adapterView.getAdapter().getItem(i);
+                Intent intent = new Intent(getActivity(), PlayerActivity.class);
+                intent.putExtra(getString(R.string.track_id), data.mID);
+                intent.putExtra(getString(R.string.image_url), data.mTmageUrl);
+                startActivity(intent);
+
+            }
+        });
+
         if (Utility.isNetworkAvailable(getActivity())) {
             new FetchTopTracksTask().execute(getActivity().getIntent().getStringExtra(
                     getString(R.string.artist_id)));
@@ -41,6 +58,7 @@ public class TopTracksFragment extends Fragment {
                     R.string.connection_error,
                     Toast.LENGTH_SHORT);
         }
+
         return rootView;
     }
 

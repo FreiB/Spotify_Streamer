@@ -13,8 +13,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".SearchActivity"
-            android:label="@string/app_name"
-            android:configChanges="orientation|screenSize">
+            android:configChanges="orientation|screenSize"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,12 +23,16 @@
         </activity>
         <activity
             android:name=".TopTracksActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_top_tracks"
-            android:parentActivityName=".SearchActivity"
-            android:configChanges="orientation|screenSize">
+            android:parentActivityName=".SearchActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.nir.spotifystreamer.SearchActivity" />
+        </activity>
+        <activity
+            android:name=".PlayerActivity"
+            android:label="@string/title_activity_player" >
         </activity>
     </application>
 
