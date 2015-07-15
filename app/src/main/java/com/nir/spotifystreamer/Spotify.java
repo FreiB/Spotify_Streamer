@@ -27,6 +27,7 @@ public class Spotify {
 
     private List<DataEntity> mLastQuery;
 
+
     private final int THUMBNAIL_SIZE = 250;
 
 
@@ -41,9 +42,6 @@ public class Spotify {
 
     }
 
-    public List<DataEntity> getmLastQuery() {
-        return mLastQuery;
-    }
 
     public List<DataEntity> SearchArtist(String name) {
         ArrayList<DataEntity> resultsArray = new ArrayList<>();
@@ -51,12 +49,11 @@ public class Spotify {
             ArtistsPager results = mService.searchArtists(name);
             for (Artist artist : results.artists.items) {
                 String imageUrl = getImageUrl(artist.images, THUMBNAIL_SIZE);
-                resultsArray.add(new DataEntity(artist.name, null, imageUrl, artist.id));
+                resultsArray.add(new DataEntity(artist.name, null, imageUrl, artist.id, null));
             }
         } catch (RetrofitError ex) {
 
         }
-        mLastQuery = resultsArray;
         return resultsArray;
     }
 
@@ -68,7 +65,11 @@ public class Spotify {
             Tracks tracks = mService.getArtistTopTrack(id, countryMap);
             for (Track track : tracks.tracks) {
                 String imageUrl = getImageUrl(track.album.images, THUMBNAIL_SIZE);
-                resultsArray.add(new DataEntity(track.album.name, track.name, imageUrl, track.id));
+                resultsArray.add(new DataEntity(track.album.name,
+                        track.name,
+                        track.album.images.get(0).url,
+                        track.id,
+                        track.preview_url));
             }
         }catch (RetrofitError ex) {
 
@@ -86,6 +87,12 @@ public class Spotify {
             return images.get(images.size()-1).url;
         }
         else return "";
+    }
+
+
+
+    public List<DataEntity> getLastQuery() {
+        return mLastQuery;
     }
 
 }

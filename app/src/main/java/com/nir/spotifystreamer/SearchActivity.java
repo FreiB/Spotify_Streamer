@@ -1,7 +1,7 @@
 package com.nir.spotifystreamer;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -12,6 +12,9 @@ public class SearchActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+        //Intent playIntent = new Intent(this, PlaybackService.class);
+        //startService(playIntent);
     }
 
 

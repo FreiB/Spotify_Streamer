@@ -88,12 +88,14 @@ public class SpotifyArrayAdapter extends ArrayAdapter<SpotifyArrayAdapter.DataEn
         public final String mText1;
         public final String mText2;
         public final String mTmageUrl;
+        public final String mDataUrl;
 
-        public DataEntity (String text1, String text2, String imageUrl, String id) {
+        public DataEntity (String text1, String text2, String imageUrl, String id, String dataUrl) {
             mID = id;
             mText1 = text1;
             mText2 = text2;
             mTmageUrl = imageUrl;
+            mDataUrl = dataUrl;
         }
     }
 

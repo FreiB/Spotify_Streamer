@@ -42,7 +42,9 @@ public class TopTracksFragment extends Fragment {
                 SpotifyArrayAdapter.DataEntity data =
                         (SpotifyArrayAdapter.DataEntity)adapterView.getAdapter().getItem(i);
                 Intent intent = new Intent(getActivity(), PlayerActivity.class);
-                intent.putExtra(getString(R.string.track_id), data.mID);
+                String artistName = getActivity().getIntent().getStringExtra(getString(R.string.artist_name));
+                intent.putExtra(getString(R.string.artist_name), artistName);
+                intent.putExtra(getString(R.string.track_idx), i);
                 intent.putExtra(getString(R.string.image_url), data.mTmageUrl);
                 startActivity(intent);
 
@@ -61,6 +63,8 @@ public class TopTracksFragment extends Fragment {
 
         return rootView;
     }
+
+
 
     public class FetchTopTracksTask extends AsyncTask<String, Void, List<SpotifyArrayAdapter.DataEntity>> {
 
